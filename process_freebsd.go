@@ -111,6 +111,7 @@ type UnixProcess struct {
 	sid   int
 
 	binary string
+	absBinary string
 }
 
 func (p *UnixProcess) Pid() int {
@@ -123,6 +124,11 @@ func (p *UnixProcess) PPid() int {
 
 func (p *UnixProcess) Executable() string {
 	return p.binary
+}
+
+
+func (p *UnixProcess) AbsExecutable() string {
+	return p.absBinary
 }
 
 // Refresh reloads all the data associated with this process.

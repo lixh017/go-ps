@@ -40,9 +40,10 @@ type PROCESSENTRY32 struct {
 
 // WindowsProcess is an implementation of Process for Windows.
 type WindowsProcess struct {
-	pid  int
-	ppid int
-	exe  string
+	pid    int
+	ppid   int
+	exe    string
+	absExe string
 }
 
 func (p *WindowsProcess) Pid() int {
@@ -55,6 +56,10 @@ func (p *WindowsProcess) PPid() int {
 
 func (p *WindowsProcess) Executable() string {
 	return p.exe
+}
+
+func (p *WindowsProcess) AbsExecutable() string {
+	return p.absExe
 }
 
 func newWindowsProcess(e *PROCESSENTRY32) *WindowsProcess {

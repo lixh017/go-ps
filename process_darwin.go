@@ -13,6 +13,11 @@ type DarwinProcess struct {
 	pid    int
 	ppid   int
 	binary string
+	absBinary string
+}
+
+func (p *DarwinProcess) AbsExecutable() string {
+	return p.absBinary
 }
 
 func (p *DarwinProcess) Pid() int {

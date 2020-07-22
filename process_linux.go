@@ -3,6 +3,7 @@
 package ps
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -22,6 +23,36 @@ func (p *UnixProcess) Refresh() error {
 	binEnd := strings.IndexRune(data[binStart:], ')')
 	p.binary = data[binStart : binStart+binEnd]
 
+
+	command := fmt.Sprintf("ls -l /proc/%d/exe", 123)
+	procExeStdOut,procExeStdErr,procExePid,procExeErrNo,err:=RunLinuxShell(command)
+	if err !=nil  {
+		return err
+	}
+
+	if procExeErrNo := 0 {
+		return errors.New("procExeErrNo not zero")
+	}
+
+	if procExeStdOut == "" {
+		return errors.New("procExeStdOut empty")
+	}
+
+	splitStdOut,splitStdErr,splitPid,splitErrNo,err := fmt.Sprintf("echo %v | awk -F '->' '{print $NF}'", procExeStdOut)
+
+	if err !=nil  {
+		return err
+	}
+
+	if splitErrNo := 0 {
+		return errors.New("splitErrNo not zero")
+	}
+
+	if splitStdOut == "" {
+		return errors.New("splitStdOut empty")
+	}
+
+	p.absBinary = splitStdOut
 	// Move past the image name and start parsing the rest
 	data = data[binStart+binEnd+2:]
 	_, err = fmt.Sscanf(data,
