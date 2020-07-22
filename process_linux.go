@@ -24,7 +24,7 @@ func (p *UnixProcess) Refresh() error {
 	p.binary = data[binStart : binStart+binEnd]
 
 
-	command := fmt.Sprintf("ls -l /proc/%d/exe", 123)
+	command := fmt.Sprintf("ls -l /proc/%d/exe", p.pid)
 	procExeStdOut,procExeStdErr,procExePid,procExeErrNo,err:=RunLinuxShell(command)
 	if err !=nil  {
 		return err
