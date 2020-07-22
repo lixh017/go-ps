@@ -33,8 +33,8 @@ func RunLinuxShell(command string) (stdoutRsStr, stderrRsStr string, pid, errNum
 	}
 
 	defer func() {
-		err = stdout.Close()
-		err = stderr.Close()
+		stdout.Close()
+		stderr.Close()
 	}()
 
 	if err := cmd.Start(); err != nil {
@@ -63,7 +63,7 @@ func RunLinuxShell(command string) (stdoutRsStr, stderrRsStr string, pid, errNum
 
 	if err := cmd.Wait(); err != nil {
 		if ex, ok := err.(*exec.ExitError); ok {
-			fmt.Println("cmd exit status")
+			//fmt.Println("cmd exit status")
 			errNum = ex.Sys().(syscall.WaitStatus).ExitStatus() //获取命令执行返回状态，相当于shell: echo $?
 		}
 	}
